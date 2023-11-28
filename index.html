@@ -7,20 +7,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 
+
     <title>Battleship Game</title>
 
 </head>
 
 <body>
+    <div class="container">
+      
+
+        <div class="description">
+            <h1>Welcome to Ghetto BattleShip</h1>
+            <p>by chester</p>
+        </div>
+        <select id="selectGrid">
+            <option value="3">3*3</option>
+            <option value="5">5*5</option>
+        </select>
+
+
+        <div class="gameBoards">
+            <div class="board grid" id="playerBoard"></div>
+            <div class="board grid" id="computerBoard"></div>
+        </div>
+
+        <div>
+            <p class="catalogue">Enemy Ships Catalogue</p>
+        </div>
+
+        <div class="Ships">
+            <div class="bigShip-preview bigShip" id="bigShip"></div>
+            <div class="midShip-preview midShip" id="midShip"></div>
+            <div class="smlShip-preview smlShip" id="smlShip"></div>
+        </div>
+
+        <div>
+            <button id="startButton">START GAME</button>
+        </div>
+    </div>
     <script src="script.js"></script>
-
-    <h2>Battleship Game</h2>
-    <table id="playerBoard"></table>
-    <table id="computerBoard"></table>
-
-
-
-
 </body>
 
 </html>
