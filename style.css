@@ -14,9 +14,11 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    background-color: rgb(199, 174, 174);
-    padding-top: 100%;
+    background-color: rgb(226, 224, 224);
+    padding-top: 0;
 }
+
+
 
 nav {
     display: flex;
@@ -97,12 +99,15 @@ h5 {
     width: 200px;
     height: 200px;
     background-color: bisque;
+    border: 1px solid black;
 }
 
 #computerBoard {
     width: 200px;
     height: 200px;
     background-color: bisque;
+    border: 1px solid black;
+
 }
 
 .mini-block {
@@ -128,6 +133,9 @@ h5 {
 
 .bigShip {
     background-color: #5b8a3f;
+    border: none;
+    border-radius: 1px solid black;
+
 }
 
 .bigShip-preview {
@@ -137,6 +145,8 @@ h5 {
 
 .midShip {
     background-color: #325685;
+    border: none;
+    border-radius: 1px solid black;
 }
 
 .midShip-preview {
@@ -144,6 +154,9 @@ h5 {
     height: 20px;
 }
 
+.smlShip {
+    background-color: #99518f;
+}
 
 .smlShip {
     background-color: #99518f;
@@ -153,7 +166,6 @@ h5 {
     width: 40px;
     height: 20px;
 }
-
 
 
 .buttons {
