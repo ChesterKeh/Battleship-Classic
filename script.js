@@ -35,6 +35,7 @@ const bigShips = [
   { row: 4, col: 4 },
 ];
 
+
 //* ship placement first [fixed] *//
 
 //! Function to generate random ship positions //
@@ -55,7 +56,7 @@ const bigShips = [
 function drawGrid(cells, container, shipPositions) {
   container.innerHTML = "";
 
-  const cellSize = 195 / cells;
+  const cellSize = 200 / cells -1 ;
 
   for (let i = 0; i < cells; i++) {
     let row = document.createElement("div");
@@ -64,11 +65,15 @@ function drawGrid(cells, container, shipPositions) {
     for (let j = 0; j < cells; j++) {
       let cell = document.createElement("div");
       cell.classList.add("cella");
+
       cell.style.width = cellSize + "px";
       cell.style.height = cellSize + "px";
       cell.appendChild(document.createTextNode("\u00A0"));
 
-      //Check if current cell is a ship
+      // cell.setAttribute("width", "100%");
+      // cell.setAttribute("height", "100%");
+
+      //putting the ships down [fixed]
       const isSmlShipPosition = smlShips.some(
         (pos) => pos.row === i && pos.col === j
       );

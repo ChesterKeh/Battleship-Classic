@@ -72,7 +72,7 @@ p {
     margin: 0px;
 }
 
-.selecGrid {
+#selectGrid {
     margin: 3px;
 }
 
@@ -100,6 +100,7 @@ h5 {
     height: 200px;
     background-color: bisque;
     border: 1px solid black;
+    
 }
 
 #computerBoard {
