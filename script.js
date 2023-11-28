@@ -35,7 +35,6 @@ const bigShips = [
   { row: 4, col: 4 },
 ];
 
-
 //* ship placement first [fixed] *//
 
 //! Function to generate random ship positions //
@@ -56,7 +55,7 @@ const bigShips = [
 function drawGrid(cells, container, shipPositions) {
   container.innerHTML = "";
 
-  const cellSize = 200 / cells -1 ;
+  const cellSize = 200 / cells - 1;
 
   for (let i = 0; i < cells; i++) {
     let row = document.createElement("div");
@@ -102,6 +101,8 @@ function drawGrid(cells, container, shipPositions) {
     container.appendChild(row);
   }
 }
+
+// Interaction with grid
 
 // Event listener for grid size change
 document.getElementById("selectGrid").addEventListener("change", function () {
