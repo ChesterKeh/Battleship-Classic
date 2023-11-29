@@ -195,15 +195,15 @@ const newShips = [smallShips, mediumShip, bigShips];
 
 function allocateShipPieces(ship, retryCount = 0) {
   const allMiniBlocks = document.querySelectorAll("#computerBoard div");
-  const randomStartIndex = Math.floor(Math.random() * Gridsize * Gridsize);
-  const validStartIndex = Math.min(
-    randomStartIndex,
-    Gridsize * Gridsize - ship.length
-  );
+  const randomStartRow = Math.floor(Math.random() * Gridsize);
+  const randomStartCol = Math.floor(Math.random() * (Gridsize - ship.length + 1));
 
   let noOverlap = true;
   for (let i = 0; i < ship.length && noOverlap; i++) {
-    const boardIndex = "#c" + (validStartIndex + i);
+    const rowIndex = randomStartRow;
+    const colIndex = randomStartCol + i;
+    const boardIndex = "#c" + (rowIndex * Gridsize + colIndex);
+
     if (document.querySelector(boardIndex).classList.contains("taken")) {
       noOverlap = false;
     }
@@ -211,11 +211,10 @@ function allocateShipPieces(ship, retryCount = 0) {
 
   if (noOverlap) {
     for (let i = 0; i < ship.length; i++) {
-      const currentIndex = validStartIndex + i;
+      const rowIndex = randomStartRow;
+      const colIndex = randomStartCol + i;
+      const currentIndex = rowIndex * Gridsize + colIndex;
       allMiniBlocks[currentIndex].classList.add("taken", ship.name);
-      // currentCell.classList.add("taken", ship.name);
-
-      // Add a data attribute to mark the position of each ship piece
       allMiniBlocks[currentIndex].setAttribute("data-ship-piece", i + 1);
     }
   } else {
@@ -226,6 +225,7 @@ function allocateShipPieces(ship, retryCount = 0) {
   }
 }
 
+
 // Call the function for each ship
 newShips.forEach(allocateShipPieces);
 
@@ -233,49 +233,38 @@ newShips.forEach(allocateShipPieces);
 //* Click and go //
 
 //For player input
-//Computer's turn
 
-function ComputerTurn() {
-  const allComputerCells = document.querySelectorAll("#computerBoard div");
-  const randomIndex = Math.floor(Math.random() * Gridsize * Gridsize);
-  const selectedCell = allComputerCells[randomIndex];
-  const isEnemyShip = selectedCell.classList.contains("taken");
+function PlayerClick(event) {
+  const isComputerCell = event.target.id.startsWith('c');
+  
 
-  if (isEnemyShip) {
-    selectedCell.textContent = "x";
-    selectedCell.style.backgroundColor = "blue";
-  } else {
-    selectedCell.textContent = "x";
+    if (isComputerCell){
+      event.target.textContent = 'x';
+      if (event.target.classList.contains('taken')) {
+        event.target.style.backgroundColor = 'blue';
+      }
+      computerTurn();
   }
 }
-// Player's Turn
-document.getElementById("playerBoard").addEventListener("click", function (event) {
-    if (event.target.classList.contains("boardCell")) {
-      const clickedCellId = event.target.id;
+function computerTurn() {
+  const playerCells = document.querySelectorAll("#playerBoard .boardCell");
+  const randomised = Math.floor(Math.random()*playerCells.length); //within the play area
+  const selectedCell  = playerCells[randomised];
+  const isPlayerShip = selectedCell.classList.contains('taken');
 
-      const row = +clickedCellId.slice(1);
-      const col = +clickedCellId.slice(2);
-
-      const computerCell = document.querySelector(
-        "#computerBoard #c" + row + col
-      );
-      const isEnemyShip = computerCell.classList.contains("taken");
-
-      if (isEnemyShip) {
-        event.target.textContent = "x";
-        event.target.style.background = "blue";
-      } else {
-        event.target.textContent = "x";
-        // Add the condition to distinguish between hits and misses
-        if (!event.target.classList.contains("hit")) {
-          event.target.classList.add("miss");
-        }
+  if(selectedCell){
+      selectedCell.textContent = 'x';
+      if(isPlayerShip){
+        selectedCell.style.backgroundColor = 'blue';
       }
 
-      // Additional check to prevent multiple clicks on the same cell
-      event.target.classList.add("hit");
 
-      // Trigger computer's turn
-      computerTurn();
-    }
-  });
+  }
+}
+
+
+  document.getElementById("computerBoard").addEventListener("click", PlayerClick);
+  document.getElementById("playerBoard").addEventListener(computerTurn);
+
+
+

@@ -190,6 +190,7 @@ h5 {
 
 .hit {
     background-color: red !important;
+    color: black;
 }
 
 .miss {
