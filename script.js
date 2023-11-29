@@ -144,7 +144,7 @@ function generateGrid(grid, prefix) {
   for (let i = 0; i < Gridsize * Gridsize; i++) {
     const miniBlock = document.createElement("div");
     miniBlock.id = prefix + i;
-    miniBlock.classList.add("mini-block");
+    miniBlock.classList.add("boardCell");
     grid.append(miniBlock);
   }
 }
@@ -184,15 +184,16 @@ class ShipCategory {
 
 //the ships
 const smallShips = new ShipCategory("smallShips", 2, 0);
-const mediumShip = new ShipCategory("mediumShips", 3, 3);
-const bigShips = new ShipCategory("bigShips", 2, 0);
+const mediumShip = new ShipCategory("mediumShips", 4, 0);
+const bigShips = new ShipCategory("bigShips", 5, 0);
 
 const newShips = [smallShips, mediumShip, bigShips];
 // console.log(newShips);
 //To check if it is in the ShipCat
 
-// Random ship placement on computer board
-function allocateShipPieces(ship) {
+//* Random ship placement on computer board //
+
+function allocateShipPieces(ship, retryCount = 0) {
   const allMiniBlocks = document.querySelectorAll("#computerBoard div");
   const randomStartIndex = Math.floor(Math.random() * Gridsize * Gridsize);
   const validStartIndex = Math.min(
@@ -208,16 +209,73 @@ function allocateShipPieces(ship) {
     }
   }
 
-  if (noOverlap /*&& !isOnRightMostColumn*/) {
+  if (noOverlap) {
     for (let i = 0; i < ship.length; i++) {
-      allMiniBlocks[validStartIndex + i].classList.add("taken", ship.name);
+      const currentIndex = validStartIndex + i;
+      allMiniBlocks[currentIndex].classList.add("taken", ship.name);
+      // currentCell.classList.add("taken", ship.name);
+
+      // Add a data attribute to mark the position of each ship piece
+      allMiniBlocks[currentIndex].setAttribute("data-ship-piece", i + 1);
     }
   } else {
-    // Consider adding a mechanism to avoid infinite recursion
-    // e.g., limit the number of retries
-    allocateShipPieces(ship);
+    // Limit the number of retries to 5
+    if (retryCount < 5) {
+      allocateShipPieces(ship, retryCount + 1);
+    }
   }
 }
 
 // Call the function for each ship
 newShips.forEach(allocateShipPieces);
+
+//! Interaction with board //
+//* Click and go //
+
+//For player input
+//Computer's turn
+
+function ComputerTurn() {
+  const allComputerCells = document.querySelectorAll("#computerBoard div");
+  const randomIndex = Math.floor(Math.random() * Gridsize * Gridsize);
+  const selectedCell = allComputerCells[randomIndex];
+  const isEnemyShip = selectedCell.classList.contains("taken");
+
+  if (isEnemyShip) {
+    selectedCell.textContent = "x";
+    selectedCell.style.backgroundColor = "blue";
+  } else {
+    selectedCell.textContent = "x";
+  }
+}
+// Player's Turn
+document.getElementById("playerBoard").addEventListener("click", function (event) {
+    if (event.target.classList.contains("boardCell")) {
+      const clickedCellId = event.target.id;
+
+      const row = +clickedCellId.slice(1);
+      const col = +clickedCellId.slice(2);
+
+      const computerCell = document.querySelector(
+        "#computerBoard #c" + row + col
+      );
+      const isEnemyShip = computerCell.classList.contains("taken");
+
+      if (isEnemyShip) {
+        event.target.textContent = "x";
+        event.target.style.background = "blue";
+      } else {
+        event.target.textContent = "x";
+        // Add the condition to distinguish between hits and misses
+        if (!event.target.classList.contains("hit")) {
+          event.target.classList.add("miss");
+        }
+      }
+
+      // Additional check to prevent multiple clicks on the same cell
+      event.target.classList.add("hit");
+
+      // Trigger computer's turn
+      computerTurn();
+    }
+  });

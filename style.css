@@ -111,7 +111,7 @@ h5 {
 
 }
 
-.mini-block {
+.boardCell {
     width: 20px;
     height: 20px;
     display: flex;
@@ -137,38 +137,31 @@ h5 {
 }
 
 
-.bigShip {
+.bigShips {
     background-color: #5b8a3f;
     border: none;
-    border-radius: 1px solid black;
-
 }
 
-.bigShip-preview {
+.bigShips-preview {
     width: 80px;
     height: 20px;
 }
 
-.midShip {
+.mediumShips {
     background-color: #325685;
     border: none;
-    border-radius: 1px solid black;
 }
 
-.midShip-preview {
+.mediumShips-preview {
     width: 60px;
     height: 20px;
 }
 
-.smlShip {
+.smallShips {
     background-color: #99518f;
 }
 
-.smlShip {
-    background-color: #99518f;
-}
-
-.smlShip-preview {
+.smallShips-preview {
     width: 40px;
     height: 20px;
 }
@@ -200,5 +193,6 @@ h5 {
 }
 
 .miss {
-    background-color: black !important;
+    background-color: #ff6961 !important;
+    color: #fff
 }
