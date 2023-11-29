@@ -127,7 +127,9 @@
 const Gridsize = 10; //10 x 10
 const playerGrid = document.getElementById("playerBoard");
 const computerGrid = document.getElementById("computerBoard");
+const startButton = document.getElementById('startButton');
 
+let gameOver =false 
 //Create the fixed size Grid
 // function drawBoard(size) {
 //   let board = []; //init empty board.
@@ -157,11 +159,12 @@ generateGrid(computerGrid, "c");
 
 //Create ships / hit and sunk conditions
 class ShipCategory {
-  constructor(name, length, hitstatus = 0) {
+  constructor(name, length, hitstatus = 0, color = 'beige') {
     this.name = name;
     this.length = length;
     this.hitstatus = hitstatus;
     this.sunk = false;
+    this.color = color;
   }
 
   hit() {
@@ -183,9 +186,9 @@ class ShipCategory {
 }
 
 //the ships
-const smallShips = new ShipCategory("smallShips", 2, 0);
-const mediumShip = new ShipCategory("mediumShips", 4, 0);
-const bigShips = new ShipCategory("bigShips", 5, 0);
+const smallShips = new ShipCategory("smallShips" , 2, 0 ,'#99518f');
+const mediumShip = new ShipCategory("mediumShips",4, 0, '#325685');
+const bigShips = new ShipCategory("bigShips",5, 0, '#5b8a3f');
 
 const newShips = [smallShips, mediumShip, bigShips];
 // console.log(newShips);
@@ -230,41 +233,89 @@ function allocateShipPieces(ship, retryCount = 0) {
 newShips.forEach(allocateShipPieces);
 
 //! Interaction with board //
-//* Click and go //
 
-//For player input
+//*Ship placement // 
 
+
+
+//*Ship placement // 
+
+
+
+//* Check box
+//?Player click on board
 function PlayerClick(event) {
-  const isComputerCell = event.target.id.startsWith('c');
-  
+  if (!gameOver) {
+    const isComputerCell = event.target.id.startsWith('c');
 
-    if (isComputerCell){
+    if (isComputerCell) {
       event.target.textContent = 'x';
       if (event.target.classList.contains('taken')) {
         event.target.style.backgroundColor = 'blue';
+        checkWin(computerGrid);
       }
       computerTurn();
+    }
   }
 }
+
 function computerTurn() {
-  const playerCells = document.querySelectorAll("#playerBoard .boardCell");
-  const randomised = Math.floor(Math.random()*playerCells.length); //within the play area
-  const selectedCell  = playerCells[randomised];
-  const isPlayerShip = selectedCell.classList.contains('taken');
+  if (!gameOver) {
+    const playerCells = document.querySelectorAll("#playerBoard .boardCell");
+    const randomIndex = Math.floor(Math.random() * playerCells.length);
+    const selectedCell = playerCells[randomIndex];
+    const isPlayerShip = selectedCell.classList.contains('taken');
 
-  if(selectedCell){
-      selectedCell.textContent = 'x';
-      if(isPlayerShip){
-        selectedCell.style.backgroundColor = 'blue';
+    setTimeout(function () {
+      if (selectedCell) {
+        selectedCell.textContent = 'x';
+        if (isPlayerShip) {
+          selectedCell.style.backgroundColor = 'blue';
+          checkWin(playerGrid);
+        }
       }
+    }, 500);
+  }
+}
 
-
+function checkWin(grid) {
+  const takenCells = grid.querySelectorAll('.taken');
+  const allShipsSunk = Array.from(takenCells).every(cell => cell.textContent === 'x');
+  const descriptionElement = document.getElementById('description');
+  
+  if (allShipsSunk) {
+    gameOver = true;
+    if (grid === computerGrid) {
+      descriptionElement.textContent = 'Player wins!';
+    } else {
+      descriptionElement.textContent = 'Computer wins!';
+    }
   }
 }
 
 
+
+
+function resetBoard(grid, clearShips = true) {
+  const cells = grid.querySelectorAll('.boardCell');
+  cells.forEach(cell => {
+    cell.textContent = '';
+    cell.style.backgroundColor = '';
+    if (!cell.classList.contains('taken')) {
+    }
+    if (clearShips) {
+      cell.classList.remove('smallShips', 'mediumShips', 'bigShips');
+      cell.removeAttribute('data-ship-piece');
+    }
+  });
+}
+
+function startGame() {
+  gameOver = false;
+  resetBoard(playerGrid);
+  resetBoard(computerGrid);
   document.getElementById("computerBoard").addEventListener("click", PlayerClick);
-  document.getElementById("playerBoard").addEventListener(computerTurn);
+}
 
-
-
+// Added the event listener for playerGrid outside of startGame
+startButton.addEventListener('click', startGame);
