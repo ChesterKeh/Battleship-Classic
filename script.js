@@ -1,128 +1,3 @@
-// //* Variables //
-// let boardSize = 5; // preset to 3 first at the start.
-// let playerTurn = true; // to keep track of whose turn it is
-// let computerTurn = false;
-
-// const playerBoard = document.getElementById("playerBoard");
-// const computerBoard = document.getElementById("computerBoard");
-
-// const smallShips = document.getElementById("smlShip");
-// const mediumShip = document.getElementById("midShip");
-// const theBigShip = document.getElementById("bigShip");
-
-// //* Variables //
-
-// //* ship placement first [fixed] *//
-// const smlShips = [
-//   { row: 1, col: 2 },
-//   { row: 3, col: 0 },
-// ];
-
-// const midShips = [
-//   { row: 0, col: 1 },
-//   { row: 0, col: 2 },
-//   { row: 0, col: 3 },
-//   { row: 2, col: 2 },
-//   { row: 2, col: 3 },
-//   { row: 2, col: 4 },
-// ];
-
-// const bigShips = [
-//   { row: 4, col: 0 },
-//   { row: 4, col: 1 },
-//   { row: 4, col: 2 },
-//   { row: 4, col: 3 },
-//   { row: 4, col: 4 },
-// ];
-
-// //* ship placement first [fixed] *//
-
-// //! Function to generate random ship positions //
-// function generateRandomShipPositions() {
-//   const positions = [];
-//   for (let i = 0; i < 3; i++) {
-//     // For simplicity, assuming ships are of size 1x1
-//     const row = Math.floor(Math.random() * boardSize);
-//     const col = Math.floor(Math.random() * boardSize);
-//     positions.push({ row, col });
-//   }
-//   return positions;
-// }
-// //! Function to generate random ship positions //
-
-// // Function to draw the grid
-// //referance from https://jsfiddle.net/pf4gbm4L/
-// function drawGrid(cells, container, playerShips, computerShips) {
-//   playercontainer.innerHTML = "";
-//   computerContainer.innerHTML ="";
-
-//   const cellSize = 200 / cells - 1;
-
-//   for (let i = 0; i < cells; i++) {
-//     let row = document.createElement("div");
-//     row.classList.add("rowa");
-
-//     for (let j = 0; j < cells; j++) {
-//       let cell = document.createElement("div");
-//       cell.classList.add("cella");
-
-//       cell.style.width = cellSize + "px";
-//       cell.style.height = cellSize + "px";
-//       cell.appendChild(document.createTextNode("\u00A0"));
-
-//       // cell.setAttribute("width", "100%");
-//       // cell.setAttribute("height", "100%");
-
-//       //putting the ships down [fixed]
-//       const isSmlShipPosition = smlShips.some(
-//         (pos) => pos.row === i && pos.col === j
-//       );
-
-//       const isMidShipPosition = midShips.some(
-//         (pos) => pos.row === i && pos.col === j
-//       );
-
-//       const isBigShipPosition = bigShips.some(
-//         (pos) => pos.row === i && pos.col === j
-//       );
-
-//       if (isSmlShipPosition) {
-//         cell.classList.add("smlShip");
-//       }
-
-//       if (isMidShipPosition) {
-//         cell.classList.add("midShip");
-//       }
-//       if (isBigShipPosition) {
-//         cell.classList.add("bigShip");
-//       }
-
-//       row.appendChild(cell);
-//     }
-//     container.appendChild(row);
-//   }
-// }
-
-// // Interaction with grid
-
-// // Event listener for grid size change
-// document.getElementById("selectGrid").addEventListener("change", function () {
-//   boardSize = parseInt(this.value, 10);
-
-//   // Generate new random ship positions for player and computer
-
-//   drawGrid(boardSize, playerBoard, smlShips, midShips, bigShips);
-//   drawGrid(boardSize, computerBoard, smlShips, midShips, bigShips);
-
-//   playerTurn = true;
-// });
-
-// // Initial draw
-// drawGrid(boardSize, playerBoard, smlShips, midShips, bigShips);
-// drawGrid(boardSize, computerBoard, smlShips, midShips, bigShips);
-
-//! Attempt number 1 ^//
-
 //* Start Variables //
 const Gridsize = 10; //10 x 10
 const playerGrid = document.getElementById("playerBoard");
@@ -235,7 +110,40 @@ newShips.forEach(allocateShipPieces);
 //! Interaction with board //
 
 //*Ship placement // 
+function allocateShipPiecesOnPlayerBoard(ship) {
+  const allMiniBlocks = document.querySelectorAll("#playerBoard div");
+  const randomStartRow = Math.floor(Math.random() * Gridsize);
+  const randomStartCol = Math.floor(Math.random() * (Gridsize - ship.length + 1));
 
+  let noOverlap = true;
+  for (let i = 0; i < ship.length && noOverlap; i++) {
+    const rowIndex = randomStartRow;
+    const colIndex = randomStartCol + i;
+    const boardIndex = "#p" + (rowIndex * Gridsize + colIndex);
+
+    if (document.querySelector(boardIndex).classList.contains("taken")) {
+      noOverlap = false;
+    }
+  }
+
+  if (noOverlap) {
+    for (let i = 0; i < ship.length; i++) {
+      const rowIndex = randomStartRow;
+      const colIndex = randomStartCol + i;
+      const currentIndex = rowIndex * Gridsize + colIndex;
+      allMiniBlocks[currentIndex].classList.add("taken", ship.name);
+      allMiniBlocks[currentIndex].setAttribute("data-ship-piece", i + 1);
+    }
+  } else {
+    // Retry placement if there's an overlap, limit the retries to 5
+    for (let retryCount = 0; retryCount < 5; retryCount++) {
+      allocateShipPiecesOnPlayerBoard(ship);
+    }
+  }
+}
+
+// Call the function for each ship to place on the player's board
+newShips.forEach(allocateShipPiecesOnPlayerBoard);
 
 
 //*Ship placement // 
@@ -295,27 +203,30 @@ function checkWin(grid) {
 
 
 
+// function resetBoard(grid) {
+//   const cells = grid.querySelectorAll('.boardCell');
+//   cells.forEach(cell => {
+//     cell.textContent = '';
+//     cell.style.backgroundColor = '';
 
-function resetBoard(grid, clearShips = true) {
-  const cells = grid.querySelectorAll('.boardCell');
-  cells.forEach(cell => {
-    cell.textContent = '';
-    cell.style.backgroundColor = '';
-    if (!cell.classList.contains('taken')) {
-    }
-    if (clearShips) {
-      cell.classList.remove('smallShips', 'mediumShips', 'bigShips');
-      cell.removeAttribute('data-ship-piece');
-    }
-  });
-}
+//     if (cell.classList.contains('taken')) {
+//       // Set the background color for cells that are marked as "taken"
+//       cell.style.backgroundColor = ShipCategory.color;
+//     }
+
+//     cell.classList.remove('taken', 'smallShips', 'mediumShips', 'bigShips');
+//     cell.removeAttribute('data-ship-piece');
+//   });
+// }
+
+
 
 function startGame() {
   gameOver = false;
-  resetBoard(playerGrid);
-  resetBoard(computerGrid);
+  
   document.getElementById("computerBoard").addEventListener("click", PlayerClick);
 }
+
 
 // Added the event listener for playerGrid outside of startGame
 startButton.addEventListener('click', startGame);
