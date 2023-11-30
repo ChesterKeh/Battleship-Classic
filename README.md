@@ -1,6 +1,6 @@
+Welcome to Ghetto Battleship, 
 
-1. Introduce the Project:
-Welcome to Ghetto Battleship, a simplified version of the classic Battleship game. Please note that this edition comes with limited features, offering a minimalist gaming experience.
+a simplified version of the classic Battleship game. Please note that this edition comes with limited features, offering a minimalist gaming experience.
 
 Key Features:
 
