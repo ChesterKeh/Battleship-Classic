@@ -7,17 +7,7 @@ const Ships = document.getElementById('Ships');
 const displayedMessage = document.querySelector('.message');
 
 let gameOver =false 
-//Create the fixed size Grid
-// function drawBoard(size) {
-//   let board = []; //init empty board.
-//   for (let i = 0; i < Gridsize; i++) {
-//     board[i] = []; // init empty array for each row
-//     for (let j = 0; j < Gridsize; j++) {
-//       board[i][j] = "o"; // Represent empty cell, with value 'o'
-//     }
-//   }
-//   return board;
-// }
+
 
 function generateGrid(grid, prefix) {
   for (let i = 0; i < Gridsize * Gridsize; i++) {
