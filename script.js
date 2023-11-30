@@ -169,10 +169,7 @@ function PlayerClick(event) {
       if (event.target.classList.contains('taken')) {
         event.target.style.backgroundColor = 'blue';
         displayedMessage.innerText = "Hit! Good job!";
-
         checkWin(computerGrid);
-
-
   
       }
       computerTurn();
