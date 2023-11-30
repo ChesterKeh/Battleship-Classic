@@ -24,10 +24,16 @@
             <option value="5">5*5</option>
         </select>
  -->
+        <div class="Mainboard">
+            <p>Game status:</p>
+            <p class="message"></p>
+        </div>
 
         <div class="gameBoards">
-            <div class="board grid" id="playerBoard"></div>
-            <div class="board grid" id="computerBoard"></div>
+            <div class="board grid" id="playerBoard">
+            </div>
+            <div class="board grid" id="computerBoard">
+            </div>
         </div>
 
         <div>
@@ -36,13 +42,14 @@
 
 
         <div class="description" id="description">
-            <p>Welcome to the hood..</p>
+            <p><-- Player board' 'Computer board---> </p>
         </div>
 
         <div class="Ships">
-            <div class="bigShips-preview bigShips " id="bigShip"></div>
-            <div class="mediumShips-preview mediumShips " id="mediumShips"></div>
-            <div class="smallShips-preview smallShips " id="smallShips"></div>
+            <div class="bigShips-preview bigShips " id="bigShip" draggable="true"></div>
+            <div class="mediumShips-preview mediumShips " id="mediumShips" draggable="true"></div>
+            <div class="mediumShips-preview mediumShips " id="mediumShips" draggable="true"></div>
+            <div class="smallShips-preview smallShips " id="smallShips" draggable="true"></div>
         </div>
 
         <div>

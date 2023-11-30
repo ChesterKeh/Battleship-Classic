@@ -197,3 +197,7 @@ h5 {
     background-color: #ff6961 !important;
     color: #fff
 }
+
+.boardlabel {
+    height: 20%;
+}
