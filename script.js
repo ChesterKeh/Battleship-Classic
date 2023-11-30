@@ -162,6 +162,10 @@ function PlayerClick(event) {
   if (!gameOver) {
     const isComputerCell = event.target.id.startsWith('c');
 
+    if (event.target.classList.contains('clicked')) {
+      return;
+    }
+
     if (isComputerCell) {
       event.target.textContent = 'x';
       displayedMessage.innerText = "Miss! Better luck next time!";
@@ -171,6 +175,8 @@ function PlayerClick(event) {
         displayedMessage.innerText = "Hit! Good job!";
         checkWin(computerGrid);
   
+        event.target.classList.add('clicked');
+
       }
       computerTurn();
     }
@@ -180,6 +186,14 @@ function PlayerClick(event) {
 function computerTurn() {
   if (!gameOver) {
     const playerCells = document.querySelectorAll("#playerBoard .boardCell");
+        // Filter out already clicked cells
+        const availableCells = Array.from(playerCells).filter(cell => !cell.classList.contains('clicked'));
+
+        if (availableCells.length === 0) {
+          // All cells are clicked, end the function
+          return;
+        }
+    
     const randomIndex = Math.floor(Math.random() * playerCells.length);
     const selectedCell = playerCells[randomIndex];
     const isPlayerShip = selectedCell.classList.contains('taken');
@@ -191,6 +205,8 @@ function computerTurn() {
           selectedCell.style.backgroundColor = 'blue';
           checkWin(playerGrid);
         }
+        selectedCell.classList.add('clicked');
+
       }
     }, 500);
   }
@@ -208,6 +224,8 @@ function checkWin(grid) {
      descriptionElement.style.backgroundColor = 'yellow'; 
     } else {
       descriptionElement.textContent = 'Computer wins!';
+      descriptionElement.style.backgroundColor = 'red'; 
+
     }
   }
 }
