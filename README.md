@@ -51,16 +51,14 @@ Note: If you encounter any issues or have questions, feel free to ask for help d
 
 Test it out!: https://chesterkeh.github.io/Battleship-Classic/
 
-**Main Menu**
 <img width="648" alt="image" src="https://github.com/ChesterKeh/Battleship-Classic/assets/114325356/b59b99cd-56e6-4ba4-be89-5d0409c32c46"># Battleship-Classic
 
-**End Game**
 <img width="648" alt="image" src="https://github.com/ChesterKeh/Battleship-Classic/assets/114325356/f71edb0f-220a-4b59-9b18-a91a920e477d">
 
 
 
 
-
+<br>
 Next update :
 
 **Drag and Drop Features**: Implement a user-friendly drag-and-drop interface for placing ships on the player board, enhancing the overall user experience.
@@ -69,3 +67,4 @@ Next update :
 
 **Ship Remaining Counter**: Introduce a dynamic counter to display the remaining ships on the player and computer boards. This feature provides players with a quick overview of their progress in the game.
 
+</br>
