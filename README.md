@@ -39,7 +39,7 @@ The game continues until all the ships on either your board or the computer's bo
 If you sink all the computer's ships, you win.
 If the computer sinks all your ships, you lose.
 
-5. How to Run the Program:
+**5. How to Run the Program:
 
 Click the "START GAME" button to initiate the game.
 The computer will randomly place its ships, and your ships will also be placed on the board.
@@ -56,10 +56,14 @@ Test it out!: https://chesterkeh.github.io/Battleship-Classic/
 <img width="648" alt="image" src="https://github.com/ChesterKeh/Battleship-Classic/assets/114325356/f71edb0f-220a-4b59-9b18-a91a920e477d">
 
 
+Key Learnings:
 
+1. Trial and Error:
+2. Research and understanding
+3. Don't get distracted: 
 
 <br>
-Next update :
+Next update : 
 
 **Drag and Drop Features**: Implement a user-friendly drag-and-drop interface for placing ships on the player board, enhancing the overall user experience.
 
